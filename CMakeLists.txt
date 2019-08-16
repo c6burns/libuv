@@ -345,11 +345,21 @@ target_compile_options(uv PRIVATE ${uv_cflags})
 target_include_directories(uv PRIVATE include src)
 target_link_libraries(uv ${uv_libraries})
 
+target_compile_options(uv PRIVATE
+	$<$<OR:$<C_COMPILER_ID:Clang>,$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:GNU>>:-Wall>
+	$<$<C_COMPILER_ID:MSVC>:/w>
+)
+
 add_library(uv_a STATIC ${uv_sources})
 target_compile_definitions(uv_a PRIVATE ${uv_defines})
 target_compile_options(uv_a PRIVATE ${uv_cflags})
 target_include_directories(uv_a PRIVATE include src)
 target_link_libraries(uv_a ${uv_libraries})
+
+target_compile_options(uv_a PRIVATE
+	$<$<OR:$<C_COMPILER_ID:Clang>,$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:GNU>>:-Wall>
+	$<$<C_COMPILER_ID:MSVC>:/w>
+)
 
 option(libuv_buildtests "Build the unit tests when BUILD_TESTING is enabled." ON)
 
